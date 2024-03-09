@@ -47,21 +47,7 @@ class Racqut(GameSprite):
     def show_score(self, x):
         text = font.render('Счёт: ' + str(self.score), 1, (0, 0, 0))
         window.blit(text, (x, 25))
-'''
-class Rocket_left(GameSprite):
-    def update(self, key):
-        if key[K_s] and self.rect.y < (win_height - self.width - 10):
-            self.rect.y += self.speed
-        if key[K_w] and self.rect.y > 10:
-            self.rect.y -= self.speed
 
-class Rocket_right(GameSprite):
-    def update(self, key):
-        if key[K_DOWN] and self.rect.y < (win_height - self.width - 10):
-            self.rect.y += self.speed
-        if key[K_UP] and self.rect.y > 10:
-            self.rect.y -= self.speed
-'''
 right = True 
 up = True
 left = False
@@ -117,6 +103,7 @@ FPS = 60
 
 first_text = font.render('Выиграл первый!', 1, (0, 0, 0))
 second_text = font.render('Выиграл второй!', 1, (0, 0, 0))
+draw_text = font.render('Ничья!', 1, (255, 255, 0))
 
 game = True
 end = False
@@ -133,11 +120,6 @@ while game:
     rocket1.show_score(racquet_left_x)
     rocket2.show_score(racquet_right_x - 200)
 
-    '''if ball.rect.x >= (win_width - ball.width):
-        rocket1.score += 1
-    if ball.rect.x <= 0:
-        rocket2.score += 1'''
-
     if end == False:
         ball.update(win_width, win_height, rocket1, rocket2)
         rockets.update(keys_pressed)
@@ -149,9 +131,12 @@ while game:
         if rocket1.score + rocket2.score == 10:
             end = True
     else:
-        if ball.rect.x >= (win_width - ball.width):
-            window.blit(first_text, (win_width/2, win_height/2))
+        if rocket1.score == rocket2.score:
+            window.blit(draw_text, (win_width/2, win_height/2))
         else:
-            window.blit(second_text, (win_width/2, win_height/2))
+            if rocket1.score > rocket2.score:
+                window.blit(first_text, (win_width/2, win_height/2))
+            else:
+                window.blit(second_text, (win_width/2, win_height/2))
     
     display.update()
